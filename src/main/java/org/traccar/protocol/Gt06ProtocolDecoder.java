@@ -125,6 +125,7 @@ public class Gt06ProtocolDecoder extends BaseProtocolDecoder {
         JC400,
         SL4X,
         SEEWORLD,
+        XTEC,
     }
 
     private Variant variant;
@@ -840,6 +841,9 @@ public class Gt06ProtocolDecoder extends BaseProtocolDecoder {
                     position.set(Position.KEY_BATTERY_LEVEL, buf.readUnsignedByte());
                     buf.readUnsignedByte(); // working mode
                     position.set(Position.KEY_POWER, buf.readUnsignedShort() / 100.0);
+                } else if (variant == Variant.XTEC) {                	
+                    position.set(Position.KEY_BATTERY_LEVEL, buf.readUnsignedByte() * 100 / 6);
+                    position.set(Position.KEY_RSSI, buf.readUnsignedByte());                                    
                 } else {
                     position.set(Position.KEY_BATTERY_LEVEL, buf.readUnsignedByte() * 100 / 6);
                     position.set(Position.KEY_RSSI, buf.readUnsignedByte());
@@ -1487,6 +1491,8 @@ public class Gt06ProtocolDecoder extends BaseProtocolDecoder {
             variant = Variant.SEEWORLD;
         } else if (header == 0x7878 && type == MSG_GPS_LBS_STATUS_1 && length == 0x26) {
             variant = Variant.SEEWORLD;
+        } else if (header == 0x7878 && type == MSG_STATUS && length == 0x0a) {
+            variant = Variant.XTEC;
         } else {
             variant = Variant.STANDARD;
         }

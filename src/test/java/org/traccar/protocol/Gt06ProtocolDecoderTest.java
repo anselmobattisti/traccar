@@ -486,6 +486,14 @@ public class Gt06ProtocolDecoderTest extends ProtocolTest {
                 "78785195140a020c2914055D4A800209D9C014009300004556454e545f3335333337363131303032333139365f30303030303030305f323032305f31305f30325f31345f34315f32305f30352e6d70340004e3a60d0a"),
                 Position.KEY_ALARM, Position.ALARM_ACCIDENT);
 
-    }
+        // XTEC
+        verifyAttribute(decoder, binary(
+                "78780a130006640100000aa3c70d0a"),
+                Position.KEY_ALARM, null);
+
+        verifyAttribute(decoder, binary(
+                "78780a130006640100000880d50d0a"),
+                Position.KEY_BATTERY_LEVEL, 100);  
+        }
 
 }
